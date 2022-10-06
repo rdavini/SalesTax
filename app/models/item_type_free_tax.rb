@@ -1,0 +1,2 @@
+class ItemTypeFreeTax < ApplicationRecord
+end
