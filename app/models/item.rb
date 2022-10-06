@@ -3,7 +3,7 @@ class Item < ApplicationRecord
     after_initialize :calculateTax
 
     def calculateTax
-        self.total_price = self.price + basic_tax + required_tax
+        self.total_price = self.price + self.qty*basic_tax + self.qty*required_tax
     end
 
     def required_tax
