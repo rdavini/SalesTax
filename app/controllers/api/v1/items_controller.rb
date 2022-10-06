@@ -19,8 +19,7 @@ class Api::V1::ItemsController < ApplicationController
 
     def create
         begin
-            item = Item.new(item_params)
-
+            item = Item.create(item_params)
             if item
               render status: :created, json: 'Item created succefully!'
             else
