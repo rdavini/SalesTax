@@ -1,6 +1,11 @@
 class Item < ApplicationRecord
     attribute :total_price, :float, default: 0.0
     after_initialize :calculateTax
+    before_validation :sanitize_content, :on => :create
+
+    validates :desc, presence: true, length: { minimum: 3 }, format: { with: /\A[a-zA-Z ]+\z/, message: "only allows letters" }
+    validates :price, presence: true, numericality: true
+    validates :qty, presence: true, numericality: { only_integer: true }
 
     def calculateTax
         self.total_price = ItemHelper.round_to(self.qty * self.price + self.qty * basic_tax + self.qty * required_tax)
@@ -29,5 +34,10 @@ class Item < ApplicationRecord
           desc: desc,
           price: total_price
         }
+    end
+
+    private
+    def sanitize_content
+        ActionController::Base.helpers.sanitize(self.desc)
     end
 end

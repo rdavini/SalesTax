@@ -15,7 +15,8 @@ class Api::V1::ItemsController < ApplicationController
     def create
         begin
             Item.destroy_all
-            items = Item.create(JSON.parse(params[:_json].to_json)) if params[:_json].present?
+            items = Item.create!(JSON.parse(params[:_json].to_json)) if params[:_json].present?
+
             if items
               render status: :created, json: 'Items created succefully!'
             else
