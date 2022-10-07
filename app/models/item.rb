@@ -8,11 +8,15 @@ class Item < ApplicationRecord
     validates :qty, presence: true, numericality: { only_integer: true }
 
     def calculateTax
-        self.total_price = ItemHelper.round_to(self.qty * self.price + self.qty * basic_tax + self.qty * required_tax)
+        self.total_price = (self.qty * self.price + ItemHelper.round_to(self.qty * basic_tax + self.qty * imported_tax)).round(2)
     end
 
-    def required_tax
-        price*5/100
+    def imported_tax
+        is_imported ? price*5/100 : 0
+    end
+
+    def is_imported
+        self.desc.include? "imported"
     end
 
     def basic_tax

@@ -17,7 +17,7 @@ class Api::V1::ItemsController < ApplicationController
             Item.destroy_all
             items = Item.create!(JSON.parse(params[:_json].to_json)) if params[:_json].present?
 
-            if items
+            if items.count
               render status: :created, json: 'Items created succefully!'
             else
               render json: item.errors, status: :unprocessable_entity
@@ -38,7 +38,7 @@ class Api::V1::ItemsController < ApplicationController
       end
 
       return { 
-        "total_cost": ItemHelper.round_to(total_cost_tax),
+        "total_cost": total_cost_tax.round(2),
         "total_tax": ItemHelper.round_to(total_cost_tax - total_cost_no_tax)
       }
     end
