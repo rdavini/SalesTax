@@ -22,4 +22,12 @@ class Item < ApplicationRecord
         end
         return false
     end
+
+    def as_json(options = nil)
+        {
+          qty: qty,
+          desc: desc,
+          price: total_price
+        }
+      end
 end

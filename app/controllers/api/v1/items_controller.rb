@@ -3,15 +3,10 @@ class Api::V1::ItemsController < ApplicationController
 
     def index
       begin
-        # query = getQuery(params)  
+        items = Item.all
+        total_info = get_total_cost items
 
-        # #refactor products and total_products should be fetched in one query, check if this is possible without affecting the pagination
-        # #and heap alocation
-        # products = Product.where(query).page(params[:page])
-        # total_products = Product.where(query).count
-
-        # render status: 200, json: [data: products, total: total_products]
-        render status: 200, json: [data: '', total: '']
+        render status: 200, json: [items: Item.all, total_info: total_info]
       rescue Exception => e
         render status: 404, json: e.message
       end
@@ -31,7 +26,21 @@ class Api::V1::ItemsController < ApplicationController
     end
 
     private
-    
+    # if there are many records the total_cost/total_tax should not be calculated in runtime
+    def get_total_cost items
+      total_cost_tax = 0
+      total_cost_no_tax = 0
+      items.each do |it|
+        total_cost_no_tax = it.price*it.qty
+        total_cost_tax += it.total_price
+      end
+
+      return { 
+        "total_cost": total_cost_tax,
+        "total_tax": total_cost_tax - total_cost_no_tax
+      }
+    end
+
     def item_params
         params.require(:item).permit([:desc, :price, :qty])
     end
