@@ -14,9 +14,10 @@ class Api::V1::ItemsController < ApplicationController
 
     def create
         begin
-            item = Item.create(item_params)
-            if item
-              render status: :created, json: 'Item created succefully!'
+            Item.destroy_all
+            items = Item.create(JSON.parse(params[:_json].to_json)) if params[:_json].present?
+            if items
+              render status: :created, json: 'Items created succefully!'
             else
               render json: item.errors, status: :unprocessable_entity
             end
@@ -31,7 +32,7 @@ class Api::V1::ItemsController < ApplicationController
       total_cost_tax = 0
       total_cost_no_tax = 0
       items.each do |it|
-        total_cost_no_tax = it.price*it.qty
+        total_cost_no_tax += it.price*it.qty
         total_cost_tax += it.total_price
       end
 
@@ -42,7 +43,7 @@ class Api::V1::ItemsController < ApplicationController
     end
 
     def item_params
-        params.require(:item).permit([:desc, :price, :qty])
+        params.require(:items).permit([:desc, :price, :qty])
     end
      
 end
