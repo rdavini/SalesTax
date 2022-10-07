@@ -37,14 +37,13 @@ class Api::V1::ItemsController < ApplicationController
       end
 
       return { 
-        "total_cost": total_cost_tax,
-        "total_tax": total_cost_tax - total_cost_no_tax
+        "total_cost": ItemHelper.round_to(total_cost_tax),
+        "total_tax": ItemHelper.round_to(total_cost_tax - total_cost_no_tax)
       }
     end
 
     def item_params
         params.require(:items).permit([:desc, :price, :qty])
     end
-     
 end
   
