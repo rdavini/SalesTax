@@ -8,6 +8,7 @@ class Item < ApplicationRecord
     validates :qty, presence: true, numericality: { only_integer: true }
 
     def calculateTax
+        return unless (self.desc.present? and self.price.present? and self.qty.present?)
         self.total_price = (self.qty * self.price + ItemHelper.round_to(self.qty * basic_tax + self.qty * imported_tax)).round(2)
     end
 
