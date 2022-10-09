@@ -1,6 +1,5 @@
 class Item < ApplicationRecord
-    attribute :total_price, :float, default: 0.0
-    after_initialize :calculateTax
+    after_validation :calculateTax
     before_validation :sanitize_content, :on => :create
 
     validates :desc, presence: true, length: { minimum: 3 }, format: { with: /\A[a-zA-Z ]+\z/, message: "only allows letters" }
