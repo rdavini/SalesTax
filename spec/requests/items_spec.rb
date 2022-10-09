@@ -15,8 +15,7 @@ describe "Items API", type: :request do
         
         get '/api/v1/items'
         expect(response).to have_http_status(:success)
-        
-        parsed_resp = JSON.parse(response.body)[0]["items"]
+        parsed_resp = JSON.parse(response.body)
         
         #3 items should have been created
         expect(parsed_resp.count).to eq(3)
@@ -24,17 +23,17 @@ describe "Items API", type: :request do
         #check 1st item values
         expect(parsed_resp[0]["desc"]).to eq("book")
         expect(parsed_resp[0]["qty"]).to eq(1)
-        expect(parsed_resp[0]["price"]).to eq(13.74)
+        expect(parsed_resp[0]["price"]).to eq("13.74")
         
         #check 2nd item values
         expect(parsed_resp[1]["desc"]).to eq("music CD")
         expect(parsed_resp[1]["qty"]).to eq(1)
-        expect(parsed_resp[1]["price"]).to eq(16.49)
+        expect(parsed_resp[1]["price"]).to eq("16.49")
         
         #check 3rd item values
         expect(parsed_resp[2]["desc"]).to eq("chocolate bar")
         expect(parsed_resp[2]["qty"]).to eq(1)
-        expect(parsed_resp[2]["price"]).to eq(0.94)
+        expect(parsed_resp[2]["price"]).to eq("0.94")
     end
 
     it 'create item - Input 2' do
@@ -46,7 +45,7 @@ describe "Items API", type: :request do
         get '/api/v1/items'
         expect(response).to have_http_status(:success)
         
-        parsed_resp = JSON.parse(response.body)[0]["items"]
+        parsed_resp = JSON.parse(response.body)
         
         #3 items should have been created
         expect(parsed_resp.count).to eq(2)
@@ -54,12 +53,12 @@ describe "Items API", type: :request do
         #check 1st item values
         expect(parsed_resp[0]["desc"]).to eq("imported box of chocolates")
         expect(parsed_resp[0]["qty"]).to eq(1)
-        expect(parsed_resp[0]["price"]).to eq(11.5)
+        expect(parsed_resp[0]["price"]).to eq("11.5")
         
         #check 2nd item values
         expect(parsed_resp[1]["desc"]).to eq("imported bottle of perfume")
         expect(parsed_resp[1]["qty"]).to eq(1)
-        expect(parsed_resp[1]["price"]).to eq(17.24)
+        expect(parsed_resp[1]["price"]).to eq("17.24")
     end
 
     it 'create item - Input 3' do
@@ -74,7 +73,7 @@ describe "Items API", type: :request do
         get '/api/v1/items'
         expect(response).to have_http_status(:success)
         
-        parsed_resp = JSON.parse(response.body)[0]["items"]
+        parsed_resp = JSON.parse(response.body)
         
         #3 items should have been created
         expect(parsed_resp.count).to eq(4)
@@ -82,22 +81,22 @@ describe "Items API", type: :request do
         #check 1st item values
         expect(parsed_resp[0]["desc"]).to eq("imported bottle of perfume")
         expect(parsed_resp[0]["qty"]).to eq(1)
-        expect(parsed_resp[0]["price"]).to eq(32.19)
+        expect(parsed_resp[0]["price"]).to eq("32.19")
         
         #check 2nd item values
         expect(parsed_resp[1]["desc"]).to eq("bottle of perfume")
         expect(parsed_resp[1]["qty"]).to eq(1)
-        expect(parsed_resp[1]["price"]).to eq(20.89)
+        expect(parsed_resp[1]["price"]).to eq("20.89")
         
         #check 3rd item values
         expect(parsed_resp[2]["desc"]).to eq("packet of headache pills")
         expect(parsed_resp[2]["qty"]).to eq(1)
-        expect(parsed_resp[2]["price"]).to eq(10.73)
+        expect(parsed_resp[2]["price"]).to eq("10.73")
         
         #check 4th item values
         expect(parsed_resp[3]["desc"]).to eq("box of imported chocolates")
         expect(parsed_resp[3]["qty"]).to eq(1)
-        expect(parsed_resp[3]["price"]).to eq(12.94)
+        expect(parsed_resp[3]["price"]).to eq("12.94")
     end
     
     # add fail test cases
